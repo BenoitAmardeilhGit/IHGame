@@ -1,15 +1,11 @@
 import './style.css';
-import { selectorExtractor } from './core/calc/SelectorExtractor';
-import { AdventureHub } from './ui/pages/AdventureHub';
-import { Settings } from './ui/pages/Settings';
-import { scannerNode } from './core/calc/ScanNode';
+import { initialize } from './core/calc/initialize';
+// import { r } from './routes';
 
-selectorExtractor.extract([
-  AdventureHub,
-  Settings
-])
-scannerNode.scan(document.querySelector('body'))
-// console.log(scannerNode.get())
+initialize();
+
+
+
 
 
 

@@ -1,4 +1,5 @@
-import { selectorExtractor } from "./SelectorExtractor"
+import { selectorExtractor } from "./SelectorExtractor";
+import { convertStringToNode } from "../../utils/dom";
 
 class ScanNode{
 
@@ -70,20 +71,9 @@ class ScanNode{
 
     for(const selector of selectorExtractor.selectors){
       if(tagName === selector.name)
-        return this.convertStringToNode(selector.template.render());
+        return convertStringToNode(selector.template.render());
     }
     return null
-  }
-
-  /**
-   * 
-   * @param {string} template 
-   * @returns {HTMLDivElement}
-   */
-  convertStringToNode(template){
-    const div = document.createElement('div');
-    div.innerHTML = template;
-    return div.firstElementChild;
   }
 
 }
