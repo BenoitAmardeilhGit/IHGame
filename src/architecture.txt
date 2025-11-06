@@ -1,0 +1,9 @@
+src/
+├── ui/               ← tout ce qui touche au DOM / HTML / CSS
+│   ├── components/   ← composants réutilisables (ex: Button, Modal)
+│   └── pages/        ← pages entières (ex: HomePage, DashboardPage)
+├── core/             ← logique métier pure (sans DOM, sans effet de bord)
+│   ├── calc/         ← tes calculs (ex: pricing.js, stats.js)
+│   └── models/       ← objets métiers (ex: User, Cart, Invoice)
+├── services/         ← communication externe (API, localStorage, etc.)
+└── utils/            ← helpers très basiques (formatDate, clamp, etc.)
