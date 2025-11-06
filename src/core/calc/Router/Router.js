@@ -1,6 +1,6 @@
 import { selectorExtractor } from "../SelectorExtractor";
 import { convertStringToNode } from "../../../utils/dom";
-import { scannerNode } from "../ScanNode";
+import { node } from "../scan/ScanNode";
 
 class Router{
 
@@ -9,7 +9,8 @@ class Router{
    * @param {{path: string, selector: string}[]} routes 
    */
   constructor(){
-    this.routes = []
+    this.routes = [];
+    this.routerLink = [];
   }
 
   initialize(routes){
@@ -23,9 +24,20 @@ class Router{
     selectorExtractor.selectors.filter((selector) => {
       if(selector.name === route.selector){
         appRoute.append(convertStringToNode(selector.template.render()))
-        scannerNode.scan(document.querySelector('body'))
+        node.scan(document.querySelector('body'))
       }
-        
+    })
+  }
+
+  /**
+   * 
+   * @param {HTMLElement} node 
+   */
+  initRouterLink(node, path){
+    node.addEventListener('click', (e) =>{
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = path 
     })
   }
 

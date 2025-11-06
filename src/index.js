@@ -1,6 +1,5 @@
 import './style.css';
 import { initialize } from './core/calc/initialize';
-// import { r } from './routes';
 
 initialize();
 

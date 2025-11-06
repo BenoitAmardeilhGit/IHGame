@@ -1,5 +1,6 @@
-import { selectorExtractor } from "./SelectorExtractor";
-import { convertStringToNode } from "../../utils/dom";
+import { checkAttribute } from "./CheckAttribute";
+import { selectorExtractor } from "../SelectorExtractor";
+import { convertStringToNode } from "../../../utils/dom";
 
 class ScanNode{
 
@@ -39,6 +40,8 @@ class ScanNode{
     if(node.children){
       let childs = Array.from(node.children).filter((child) => child.nodeName !== 'SCRIPT')
       childs.forEach((child) => {
+        if(child.nodeName === 'ROUTER') return
+        checkAttribute.check(child)
         this.scan(child)
       })
     } else {
@@ -78,4 +81,4 @@ class ScanNode{
 
 }
 
-export const scannerNode = new ScanNode();
+export const node = new ScanNode();
