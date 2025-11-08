@@ -7,3 +7,14 @@ src/
 │   └── models/       ← objets métiers (ex: User, Cart, Invoice)
 ├── services/         ← communication externe (API, localStorage, etc.)
 └── utils/            ← helpers très basiques (formatDate, clamp, etc.)
+
+
+    /**
+     * Cela ne fonctionne pas bien. Gérer les index pour supprimer les valeurs à partir
+     * d'un élément précis du tableau.
+     */
+    // window.addEventListener("popstate", (e) => {
+    //   let url = this.previousURL[this.previousURL.length - 1];
+    //   this.getTemplateByRoute(url)
+    //   this.previousURL.pop();
+    // });

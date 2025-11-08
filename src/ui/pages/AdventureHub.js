@@ -19,6 +19,10 @@ export class AdventureHub{
         <div id="adventure-hub-content">
           ${this.getButtons()}
         </div>
+        <section>
+          <h2 routerLink='hub'>test</h2>
+          <app-settings></app-settings>
+        </section>
       </div>
     `;
   }

@@ -4,3 +4,29 @@
   margin: 0;
   padding: 0;
 }
+
+nav{
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+}
+
+nav ul{
+  display: flex;
+}
+
+nav li{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+nav a {
+  display: block;
+  padding: 10px;
+}
+
+nav a:hover{
+  background-color: rgb(220, 220, 220);
+  cursor: pointer;
+}

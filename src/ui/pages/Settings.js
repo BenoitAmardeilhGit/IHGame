@@ -5,6 +5,10 @@ export class Settings{
   }
 
   render(){
-    return `<h1>Setting</h1>`
+    return `
+      <h1>Setting</h1>
+      <p>Bonjour</p>
+      <app-header></app-header>
+    `;
   }
 }

@@ -1,6 +1,5 @@
-import { selectorExtractor } from "../SelectorExtractor";
-import { convertStringToNode } from "../../../utils/dom";
-import { node } from "../scan/ScanNode";
+import { routes } from '../../../routes';
+import { moduleDescriptor } from '../node/ModuleDescriptor';
 
 class Router{
 
@@ -9,35 +8,44 @@ class Router{
    * @param {{path: string, selector: string}[]} routes 
    */
   constructor(){
-    this.routes = [];
-    this.routerLink = [];
+    this.routes = routes;
+    this.previousURL = [];
   }
 
-  initialize(routes){
-    this.routes = routes;
+  build(){
+    
+  }
+
+  initialize(){
     this.getTemplateByRoute(location.pathname)
   }
 
+  /**
+   * Ajoute les template html liée a l'url.
+   * @param {string} pathname 
+   */
   getTemplateByRoute(pathname){
-    let route = this.routes.filter((route) => route.path === pathname)[0]
-    let appRoute = document.querySelector('router')
-    selectorExtractor.selectors.filter((selector) => {
-      if(selector.name === route.selector){
-        appRoute.append(convertStringToNode(selector.template.render()))
-        node.scan(document.querySelector('body'))
-      }
-    })
+    if(pathname.length !== 0){
+      this.selectedURL = pathname;
+      let route = this.routes.filter((route) => route.path === pathname)[0]
+      // let t = moduleDescriptor.descriptors.filter((descriptor) => descriptor.selector === route.selector)[0]
+      // const appRoute = document.querySelector('router');
+      // appRoute.innerHTML = '';
+      // appRoute.append(t.template)
+    }
   }
 
   /**
-   * 
+   * Ajouter les events 'click' pour chaque attribut routerLink.
    * @param {HTMLElement} node 
    */
   initRouterLink(node, path){
     node.addEventListener('click', (e) =>{
       e.preventDefault();
       e.stopPropagation();
-      location.href = path 
+      this.previousURL.push(this.selectedURL)
+      history.pushState({}, "", path);
+      this.getTemplateByRoute(path)
     })
   }
 
