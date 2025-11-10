@@ -1,10 +1,26 @@
 import { router } from "../Router/Router";
 import { moduleDescriptor } from "./ModuleDescriptor";
+import { Events } from "./Events";
 
 class NodeManager{
 
   constructor(){
     this.childs = [];
+    this.descriptor = null;
+  }
+
+  build(){
+    moduleDescriptor.descriptors.forEach((descriptor) => {
+      this.descriptor = descriptor;
+      this.scan(descriptor.template);
+    })
+
+    moduleDescriptor.descriptors.forEach((descriptor) => {
+      this.combine(descriptor.template)
+    })
+
+    this.scan(document.querySelector('body'));
+    this.combine(document.querySelector('body'));
   }
 
   /**
@@ -58,6 +74,10 @@ class NodeManager{
             let path = (attribute.value === '/') ? attribute.value : '/'+ attribute.value
             node.setAttribute('routing', true)
             router.initRouterLink(node, path)
+            break;
+          case '(click)':
+            const events = new Events();
+            events.add(node, this.descriptor, attribute)
             break;
           default:
             break;

@@ -7,5 +7,5 @@ export const modules = [
     AdventureHub,
     Settings,
     Menu,
-    Header
+    Header,
   ];

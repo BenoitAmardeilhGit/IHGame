@@ -14,6 +14,11 @@ class Descriptor{
   template;
 
   /**
+   * @param {Function[]}
+   */
+  functions;
+
+  /**
    * @param {Object}
    */
   object;
@@ -21,9 +26,11 @@ class Descriptor{
   constructor(
     selector,
     template,
+    functions,
     object ){
       this.selector = selector;
       this.template = template;
+      this.functions = functions;
       this.object = object
   }
 
@@ -49,9 +56,16 @@ class ModuleDescriptor{
 
   /**
    * 
-   * @param {Object[]} modules 
+   * @param {Object[]} array 
    */
-  build(modules){
+  build(array){
+    let modules = [];
+
+    array.forEach((module) => {
+      if(modules.indexOf(module) !== -1) throw new Error(`Une classe est déjà présente dans le tableau des modules 'src/modules.js'`)
+        modules.push(module)
+    });
+
     this.descriptors = modules.map((module) => this.toDescriptor(module));
   }
 
@@ -60,26 +74,44 @@ class ModuleDescriptor{
    * @param {Object} module 
    */
   toDescriptor(module){
-      let instance = new module
+      let instance = new module;
       return new Descriptor(
-        this.extract(module), 
+        this.getSelector(module), 
         convertStringToNode(instance.render()),
+        this.getFunctions(module),
         instance
       )
   }
 
   /**
-   * 
+   * Retourne le sélecteur associé à la classe passée en paramètre.
    * @param {Object} obj 
    * @returns 
    */
-  extract(obj){
+  getSelector(obj){
     if(!obj) throw new Error('Aucun objet n\'est présent');
     const property = Object.getOwnPropertyDescriptors(new obj);
     for(let [key, v] of Object.entries(property)){
       if(key === 'selector')
         return v.value;  
     }
+  }
+
+  /**
+   * Retourne les fonctions associées à la classe passée en paramètre.
+   * @param {Object} obj 
+   * @returns 
+   */
+  getFunctions(obj){
+    let functions = [];
+    for(let key of Object.getOwnPropertyNames(obj.prototype)){
+      if(key !== 'constructor' && key !== 'render')
+        functions.push({
+          key: key,
+          value: obj.prototype[key]
+        })
+    }
+    return functions
   }
 }
 
