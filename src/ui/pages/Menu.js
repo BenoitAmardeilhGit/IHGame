@@ -6,7 +6,11 @@ export class Menu{
 
   render(){
     return `
-      <div>Menu</div>
+      <div>
+        <ul>
+          <li><a routerLink="/">link</a></li>
+        </ul>
+      </div>
     `
   }
 }

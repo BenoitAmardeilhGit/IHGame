@@ -6,5 +6,5 @@
   export function convertStringToNode(template){
     const div = document.createElement('div');
     div.innerHTML = template;
-    return div.firstElementChild;
+    return div;
   }

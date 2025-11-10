@@ -1,5 +1,5 @@
 import { convertStringToNode } from "../../../utils/dom";
-import { scan } from "./ScanNode";
+import { node } from "./NodeManager";
 
 class Descriptor{
 

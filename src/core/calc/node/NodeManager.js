@@ -1,20 +1,10 @@
 import { router } from "../Router/Router";
 import { moduleDescriptor } from "./ModuleDescriptor";
 
-class ScanNode{
+class NodeManager{
 
   constructor(){
-    this.main = null;
-  }
-
-  /**
-   * 
-   * @param {HTMLElement} node 
-   */
-  start(node){
-    if(!node) throw new Error('Element HTML manquant')
-    this.main = node;
-    return this.scan(this.main);
+    this.childs = [];
   }
 
   /**
@@ -27,35 +17,33 @@ class ScanNode{
    */
   scan(node){
     this.checkAttribute(node)
-    // this.combineTemplate(node);
-
-    console.log(node)
-
     if(node.children.length !== 0){
-      console.log('enfant')
       let childs = Array.from(node.children).filter((child) => child.nodeName !== 'SCRIPT')
-      console.log(childs)
-        childs.forEach((child) => {
-          this.scan(child)
-        })
-      }
-
-    if(node.children.length === 0 && node.nextElementSibling){
-      console.log('frere')
-      this.scan(node.nextElementSibling)
+      childs.forEach((child) => {
+        this.scan(child)
+      })
     }
-
-
-    return this.main
   }
 
-  combineTemplate(node){
-    moduleDescriptor.descriptors.forEach((descriptor) => {
-      if(node.nodeName.toLowerCase() === descriptor.selector){
-        this.main.querySelector(descriptor.selector).append(descriptor.template)
-        this.scan(descriptor.template)
-      }
-    })
+  /**
+   * Combine un template si le selecteur <app-...> est trouvé.
+   * @param {HTMLElement} node 
+   */
+  combine(node){
+    if(node.nodeName === 'ROUTER') return
+    let nodeName = node.nodeName.toLowerCase()
+      
+    const descriptor = moduleDescriptor.descriptors.filter((descriptor) => (nodeName === descriptor.selector))[0]
+    if(descriptor)
+      node.append(descriptor.template.cloneNode(true))
+
+    if(node.children.length !== 0){
+      this.childs = Array.from(node.children).filter((child) => child.nodeName !== 'SCRIPT')
+      this.childs.forEach((child) => {
+        this.combine(child)
+      })
+    }
+
   }
 
   /**
@@ -68,6 +56,7 @@ class ScanNode{
         switch(attribute.name){
           case 'routerlink':
             let path = (attribute.value === '/') ? attribute.value : '/'+ attribute.value
+            node.setAttribute('routing', true)
             router.initRouterLink(node, path)
             break;
           default:
@@ -79,4 +68,4 @@ class ScanNode{
 
 }
 
-export const scan = new ScanNode();
+export const node = new NodeManager();

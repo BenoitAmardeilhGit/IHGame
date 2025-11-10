@@ -6,5 +6,6 @@ import { Settings } from "./ui/pages/Settings";
 export const modules = [
     AdventureHub,
     Settings,
-    // Header
+    Menu,
+    Header
   ];

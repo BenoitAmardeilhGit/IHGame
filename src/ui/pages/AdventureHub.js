@@ -10,7 +10,7 @@ export class AdventureHub{
   }
 
   /**
-   * Génère le squelette HTML du hub d’aventure. 
+   * Génère le squelette HTML du hub d’aventure. <app-settings></app-settings>
    * @returns {string}
    */
   render(){
